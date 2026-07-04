@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with dirtsand.  If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.14)
 project(dirtsand)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -180,19 +180,10 @@ install(PROGRAMS ${CMAKE_SOURCE_DIR}/bin/docker-entrypoint.sh ${CMAKE_SOURCE_DIR
 install(FILES static_ages.ini
         DESTINATION ".")
 
-# The tests use the FetchContent module, which was added in CMake 3.11.
-include(CMakeDependentOption)
-cmake_dependent_option(
-    ENABLE_TESTS
-    "Enable building and running unit tests"
-    ON
-    "NOT ${CMAKE_VERSION} VERSION_LESS 3.11"
-    OFF
-)
-
 # clang-tidy related rules and targets
 include(TidyRules.cmake)
 
+option(ENABLE_TESTS "Enable building and running unit tests" ON)
 if(ENABLE_TESTS)
     enable_testing()
     add_subdirectory(Tests)
